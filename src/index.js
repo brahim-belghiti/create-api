@@ -1,29 +1,25 @@
+require('dotenv').config();
+
 const express = require('express');
-const app= express();
-const PORT = 8080;
+const app = express();
+const mongoose = require('mongoose');
+
+const PORT = 3000;
+
+mongoose.connect(process.env.DATABASE_URL)
+const db = mongoose.connection;
+db.on('error', (error) => {
+    console.error('MongoDB connection error:', error);
+});
+
+db.on('connected', () => console.log('Connected to database'));
+
 
 app.use(express.json());
 
+const subscribersRouter = require('./routes/subscribers');
+app.use('/subscribers', subscribersRouter);
+
 app.listen(PORT,
     () => console.log("its's alive")
-)
-
-app.get('/tshirt',
-    (req, res) => {
-        res.status(200).send({
-            size: "M",
-            color: "green"
-        })
-    })
-
-app.post('/tshirt/:id', (req, res) => {
-
-    const { id } = req.params;
-    const { logo } = req.body;
-
-    if (!logo) {
-        res.status(418).send({
-            message: 'We need a logo!'
-        })
-    }
-})
+);
