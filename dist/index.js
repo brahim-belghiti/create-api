@@ -3,19 +3,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
+const mongoose_1 = __importDefault(require("mongoose"));
+dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = 3000;
-app.get("/", (req, res) => {
-    res.send("Hello from express server yo with typescript");
+const DATABASE_URL = process.env.DATABASE_URL || '';
+mongoose_1.default.connect(DATABASE_URL)
+    .then(() => {
+    console.log('Connected to the database');
+})
+    .catch((error) => {
+    console.error('MongoDB connection error:', error);
 });
-// mongoose.connect(process.env.DATABASE_URL)
-// const db = mongoose.connection;
-//  db.on('error', (error) => {
-//     console.error('MongoDB connection error:', error);
-//  });
-// db.on('connected', () => console.log('Connected to database'));
-// app.use(express.json());
-// const subscribersRouter = require('./routes/subscribers');
-// app.use('/subscribers', subscribersRouter);
-app.listen(PORT, () => console.log("its's running"));
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
