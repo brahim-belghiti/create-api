@@ -8,14 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router();
+exports.deleteSubscriber = exports.updatedSubscriber = exports.createSubscriber = exports.getOneSubscriber = exports.getAllSubscribers = void 0;
 const Subscriber = require('../models/subscriber');
-const getSubscriber_1 = __importDefault(require("../middlewares/getSubscriber"));
 function getAllSubscribers(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -27,13 +22,15 @@ function getAllSubscribers(req, res) {
         }
     });
 }
+exports.getAllSubscribers = getAllSubscribers;
 function getOneSubscriber(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const subscriber = res.subscriber;
         res.send(res.subscriber);
     });
 }
-function createASubscriber(req, res) {
+exports.getOneSubscriber = getOneSubscriber;
+function createSubscriber(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const subscriber = Subscriber({
             name: req.body.name,
@@ -48,7 +45,8 @@ function createASubscriber(req, res) {
         }
     });
 }
-function editSubscriber(req, res) {
+exports.createSubscriber = createSubscriber;
+function updatedSubscriber(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const subscriber = res.subscriber;
         subscriber.name = req.body.name || subscriber.name;
@@ -63,6 +61,7 @@ function editSubscriber(req, res) {
         }
     });
 }
+exports.updatedSubscriber = updatedSubscriber;
 function deleteSubscriber(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const subscriber = res.subscriber;
@@ -75,9 +74,4 @@ function deleteSubscriber(req, res) {
         }
     });
 }
-router.get('/', getAllSubscribers);
-router.get('/:id', getSubscriber_1.default, getOneSubscriber);
-router.post('/', createASubscriber);
-router.patch('/:id', getSubscriber_1.default, editSubscriber);
-router.delete('/:id', getSubscriber_1.default, deleteSubscriber);
-module.exports = router;
+exports.deleteSubscriber = deleteSubscriber;

@@ -1,11 +1,8 @@
-import express, { Request, Response, NextFunction } from 'express';
-const router = express.Router();
+import { Request, Response } from 'express';
 const Subscriber = require('../models/subscriber');
-import getSubscriber from '../middlewares/getSubscriber';
 import { ISubscriber } from '../types/subscriber.type';
-import { get } from 'http';
 
-async function getAllSubscribers(req: Request, res: Response): Promise<void> {
+export async function getAllSubscribers(req: Request, res: Response): Promise<void> {
   try {
     const subscribers: ISubscriber[] = await Subscriber.find();
     res.status(200).json(subscribers);
@@ -14,12 +11,12 @@ async function getAllSubscribers(req: Request, res: Response): Promise<void> {
   }
 }
 
-async function getOneSubscriber(req: Request, res: Response): Promise<void> {
+export async function getOneSubscriber(req: Request, res: Response): Promise<void> {
   const subscriber: ISubscriber = res.subscriber as ISubscriber;
   res.send(res.subscriber);
 }
 
-async function createASubscriber(req: Request, res: Response): Promise<void> {
+export async function createSubscriber(req: Request, res: Response): Promise<void> {
   const subscriber: ISubscriber = Subscriber({
     name: req.body.name,
     subscribedToChannel: req.body.subscribedToChannel,
@@ -32,7 +29,7 @@ async function createASubscriber(req: Request, res: Response): Promise<void> {
   }
 }
 
-async function editSubscriber(req: Request, res: Response): Promise<void> {
+export async function updatedSubscriber(req: Request, res: Response): Promise<void> {
   const subscriber: ISubscriber = res.subscriber as ISubscriber;
   subscriber.name = req.body.name || subscriber.name;
   subscriber.subscribedToChannel =
@@ -45,7 +42,7 @@ async function editSubscriber(req: Request, res: Response): Promise<void> {
   }
 }
 
-async function deleteSubscriber(req: Request, res: Response): Promise<void> {
+export async function deleteSubscriber(req: Request, res: Response): Promise<void> {
   const subscriber: ISubscriber = res.subscriber as ISubscriber;
   try {
     await subscriber.deleteOne();
@@ -55,10 +52,4 @@ async function deleteSubscriber(req: Request, res: Response): Promise<void> {
   }
 }
 
-router.get('/', getAllSubscribers);
-router.get('/:id', getSubscriber, getOneSubscriber);
-router.post('/', createASubscriber);
-router.patch('/:id', getSubscriber, editSubscriber);
-router.delete('/:id', getSubscriber, deleteSubscriber);
 
-module.exports = router;

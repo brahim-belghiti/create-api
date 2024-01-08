@@ -18,7 +18,7 @@ mongoose_1.default.connect(DATABASE_URL)
     console.error('MongoDB connection error:', error);
 });
 app.use(express_1.default.json());
-const subscribersRouter = require('./routes/subscribers');
+const subscribersRouter = require('./routes/subscribersRoute');
 app.use('/subscribers', subscribersRouter);
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
