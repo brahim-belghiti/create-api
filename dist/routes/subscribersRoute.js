@@ -10,6 +10,6 @@ const subscriberController_1 = require("../controllers/subscriberController");
 router.get('/', subscriberController_1.getAllSubscribers);
 router.get('/:id', getSubscriber_1.default, subscriberController_1.getOneSubscriber);
 router.post('/', subscriberController_1.createSubscriber);
-router.patch('/:id', getSubscriber_1.default, subscriberController_1.updatedSubscriber);
+router.patch('/:id', getSubscriber_1.default, subscriberController_1.updateSubscriber);
 router.delete('/:id', getSubscriber_1.default, subscriberController_1.deleteSubscriber);
 module.exports = router;

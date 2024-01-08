@@ -1,55 +1,72 @@
 import { Request, Response } from 'express';
-const Subscriber = require('../models/subscriber');
-import { ISubscriber } from '../types/subscriber.type';
+import * as subscriberService from '../services/subscriberService';
 
-export async function getAllSubscribers(req: Request, res: Response): Promise<void> {
+export async function getAllSubscribers(
+  req: Request,
+  res: Response
+): Promise<void> {
   try {
-    const subscribers: ISubscriber[] = await Subscriber.find();
+    const subscribers = await subscriberService.getAllSubscribers();
     res.status(200).json(subscribers);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 }
 
-export async function getOneSubscriber(req: Request, res: Response): Promise<void> {
-  const subscriber: ISubscriber = res.subscriber as ISubscriber;
-  res.send(res.subscriber);
+export async function getOneSubscriber(
+  req: Request,
+  res: Response
+): Promise<void> {
+  try {
+    const subscriberId = req.params.id;
+    const subscriber = await subscriberService.getSubscriberById(subscriberId);
+    if (!subscriber) {
+      res.status(404).json({ message: 'Subscriber not found' });
+      return;
+    }
+    res.status(200).json(subscriber);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
 }
 
-export async function createSubscriber(req: Request, res: Response): Promise<void> {
-  const subscriber: ISubscriber = Subscriber({
-    name: req.body.name,
-    subscribedToChannel: req.body.subscribedToChannel,
-  });
+export async function createSubscriber(
+  req: Request,
+  res: Response
+): Promise<void> {
   try {
-    const newSubscriber: ISubscriber = await subscriber.save();
+    const newSubscriber = await subscriberService.createSubscriber(req.body);
     res.status(201).json(newSubscriber);
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
   }
 }
 
-export async function updatedSubscriber(req: Request, res: Response): Promise<void> {
-  const subscriber: ISubscriber = res.subscriber as ISubscriber;
-  subscriber.name = req.body.name || subscriber.name;
-  subscriber.subscribedToChannel =
-    req.body.subscribedToChannel || subscriber.subscribedToChannel;
+export async function updateSubscriber(
+  req: Request,
+  res: Response
+): Promise<void> {
   try {
-    const updatedSubscriber: ISubscriber = await subscriber.save();
+    const subscriberId = req.params.id;
+    const updatedSubscriber = await subscriberService.updateSubscriber(
+      subscriberId,
+      req.body
+    );
     res.status(200).json(updatedSubscriber);
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
   }
 }
 
-export async function deleteSubscriber(req: Request, res: Response): Promise<void> {
-  const subscriber: ISubscriber = res.subscriber as ISubscriber;
+export async function deleteSubscriber(
+  req: Request,
+  res: Response
+): Promise<void> {
   try {
-    await subscriber.deleteOne();
-    res.status(200).json({ message: 'deleted with success' });
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
+    const subscriberId = req.params.id;
+    await subscriberService.deleteSubscriber(subscriberId);
+    res.status(200).json({ message: 'Subscriber deleted' });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
 }
-
-
