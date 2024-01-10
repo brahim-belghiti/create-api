@@ -3,13 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
-dotenv_1.default.config();
+const env_1 = __importDefault(require("./config/env"));
 const app = (0, express_1.default)();
-const PORT = 3000;
-const DATABASE_URL = process.env.DATABASE_URL || '';
+const PORT = env_1.default.port;
+const DATABASE_URL = env_1.default.database_url || '';
 mongoose_1.default.connect(DATABASE_URL)
     .then(() => {
     console.log('Connected to the mongoose database');
