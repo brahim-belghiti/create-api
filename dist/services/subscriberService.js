@@ -8,13 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSubscriber = exports.updateSubscriber = exports.createSubscriber = exports.getSubscriberById = exports.getAllSubscribers = void 0;
-const Subscriber = require('../models/subscriber');
+const subscriber_1 = __importDefault(require("../models/subscriber"));
 function getAllSubscribers() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const subscribers = yield Subscriber.find();
+            const subscribers = yield subscriber_1.default.find();
             return subscribers;
         }
         catch (error) {
@@ -26,7 +29,7 @@ exports.getAllSubscribers = getAllSubscribers;
 function getSubscriberById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const subscriber = yield Subscriber.findById(id);
+            const subscriber = yield subscriber_1.default.findById(id);
             return subscriber;
         }
         catch (error) {
@@ -38,7 +41,7 @@ exports.getSubscriberById = getSubscriberById;
 function createSubscriber(data) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const newSubscriber = yield Subscriber.create(data);
+            const newSubscriber = yield subscriber_1.default.create(data);
             return newSubscriber;
         }
         catch (error) {
@@ -50,7 +53,7 @@ exports.createSubscriber = createSubscriber;
 function updateSubscriber(id, data) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const updatedSubscriber = yield Subscriber.findByIdAndUpdate(id, data, { new: true });
+            const updatedSubscriber = yield subscriber_1.default.findByIdAndUpdate(id, data, { new: true });
             return updatedSubscriber;
         }
         catch (error) {
@@ -62,7 +65,7 @@ exports.updateSubscriber = updateSubscriber;
 function deleteSubscriber(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield Subscriber.findByIdAndDelete(id);
+            yield subscriber_1.default.findByIdAndDelete(id);
         }
         catch (error) {
             throw new Error(error.message);

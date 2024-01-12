@@ -19,4 +19,5 @@ const subscriberSchema = new mongoose_1.default.Schema({
         default: Date.now,
     },
 });
-module.exports = mongoose_1.default.model('Subscriber', subscriberSchema);
+const Subscriber = mongoose_1.default.model('Subscriber', subscriberSchema);
+exports.default = Subscriber;

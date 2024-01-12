@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { ISubscriber } from '../types/subscriber.type';
 
 const subscriberSchema = new mongoose.Schema({
   name: {
@@ -16,4 +17,5 @@ const subscriberSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Subscriber', subscriberSchema);
+const Subscriber = mongoose.model<ISubscriber>('Subscriber', subscriberSchema);
+export default Subscriber;

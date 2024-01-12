@@ -1,4 +1,4 @@
-const Subscriber =  require('../models/subscriber');
+import Subscriber from '../models/subscriber';
 import { ISubscriber } from '../types/subscriber.type';
 
 export async function getAllSubscribers(): Promise<ISubscriber[]> {
