@@ -32,11 +32,13 @@ const signUp = (name, password, email) => __awaiter(void 0, void 0, void 0, func
 exports.signUp = signUp;
 const loginUser = (name, providedPassword) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_1.default.findOne({ name });
-    console.log("🚀 ~ loginUser ~ user:", user);
     if (!user) {
         return null;
     }
-    const isPasswordValid = yield bcrypt_1.default.compare(providedPassword, user.password);
+    const hello = "$2b$10$I1E2iaOlUkWrRrTzN406GO.7RnaNEiEeDlI.PkoR9/aDZ5tZiHPxK";
+    const hi = "$2b$10$I1E2iaOlUkWrRrTzN406GO.7RnaNEiEeDlI.PkoR9/aDZ5tZiHPxK";
+    const isPasswordValid = yield bcrypt_1.default.compare(hello, hi);
+    console.log("🚀 ~ loginUser ~ isPasswordValid:", isPasswordValid);
     return isPasswordValid ? user : null;
 });
 exports.loginUser = loginUser;
